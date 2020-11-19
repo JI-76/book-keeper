@@ -36,3 +36,74 @@ h1 {
 h1:hover {
   background: rgba(0, 0, 0, 0.8);
 }
+
+/* Bookmarks */
+/* Style the child Div element <div> class="container" id="bookmarks-container" */
+.container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+/* Style the child Div element <div> class="item" */
+.item {
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border-radius: var(--border-radius);
+  padding: 20px;
+  margin: 10px;
+}
+
+/* pseudo class for behavior - hover */
+.item:hover {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+/* Style the child Anchor element <a> */
+a {
+  font-size: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+/* pseudo class for behavior - link, visited */
+a:link,
+a:visited {
+  color: white;
+  text-decoration: none;
+}
+
+/* pseudo class for behavior - hover, active */
+a:hover,
+a:active {
+  text-decoration: underline;
+}
+
+/* Style the child Icon element <i> */
+.fa-times-circle {
+  float: right;
+  cursor: pointer;
+  z-index: 2;
+}
+
+/* Style the child Div element <div> class="name" */
+.name {
+  margin-top: 20px;
+  margin-right: 20px;
+}
+
+/* Style the child Image element <img> */
+.name img {
+  height: 20px;
+  width: 20px;
+  /* align up with element next to it */
+  vertical-align: sub;
+  margin-right: 5px;
+}
+
+/* Media Query: Large Smartphone (Vertical) */
+@media screen and (max-width: 600px) {
+  .container {
+    flex-direction: column;
+  }
+}
