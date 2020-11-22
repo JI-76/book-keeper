@@ -9,6 +9,9 @@ const websiteNameEl = document.getElementById('website-name');
 const websiteUrlEl = document.getElementById('website-url');
 const bookmarksContainer = document.getElementById('bookmarks-container');
 
+// global variable
+// Array of Objects to store Bookmarks
+let bookmarks = [];
 
 // Show Modal; Focus on Input
 function showModal() {
@@ -58,6 +61,27 @@ function validateForm(nameValue, urlValue) {
     return true;
 };
 
+// Fetch bookmarks from local storage (if available)
+function fetchBookmarks() {
+
+    if (localStorage.getItem('bookmarks')) {
+        bookmarks = JSON.parse(localStorage.getItem('bookmarks'));
+    } else {
+        // Create bookmarks array in local storage with 1 item
+        bookmarks = [
+            {
+                name: 'Jacinto Design',
+                url: 'https://www.',
+            },
+        ];
+
+        localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+    };
+
+    console.log(JSON.stringify(bookmarks));
+};
+
+
 // Handle Form data
 function storeBookmark(e) {
     // prevent Form from submitting a network event
@@ -73,13 +97,38 @@ function storeBookmark(e) {
         urlValue = `https://${urlValue}`;
     };
 
-    console.log(nameValue, urlValue);
+    //console.log(nameValue, urlValue);
 
     // validate Form data.
     if (!validateForm(nameValue, urlValue)) {
         return false;
     };
+
+    // bookmark object
+    const bookmark = {
+        name: nameValue,
+        url: urlValue,
+    };
+
+    // pass Bookmark Object to Array of Objects
+    bookmarks.push(bookmark);
+    // console.log(JSON.stringify(bookmarks));
+
+    // persist to local storage cache
+    localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+
+    // load bookmarks from local storage
+    fetchBookmarks();
+
+    // reset Form
+    bookmarkForm.reset();
+
+    // return focus on Website name
+    websiteNameEl.focus();
 };
 
 // Event Listener
 bookmarkForm.addEventListener('submit', storeBookmark);
+
+// On Load, Fetch Bookmarks
+fetchBookmarks();
