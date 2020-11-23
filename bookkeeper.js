@@ -61,6 +61,50 @@ function validateForm(nameValue, urlValue) {
     return true;
 };
 
+// Build Bookmarks DOM
+function buildBookmarks() {
+    // Build Items - 1 per bookmark
+    bookmarks.forEach((bookmark) => {
+        // destructure array
+        const {name, url} = bookmark;
+        // console.log(name, url);
+
+        // create <div> class="item"
+        const item = document.createElement('div');
+        item.classList.add('item');
+
+        // Close Icon
+        // create <i> class="far fa-times-circle" id="delete-bookmark" 
+        const closeIcon = document.createElement('i');
+        closeIcon.classList.add('far', 'fa-times-circle');
+        closeIcon.setAttribute('title', 'Delete Bookmark');
+        closeIcon.setAttribute('onclick', `deleteBookmark('${url}')`);
+        
+        // Favicon / Link Container
+        // create <div> class="name"
+        const linkInfo = document.createElement('div');
+        linkInfo.classList.add('name');
+
+        // create <img> alt="Favicon"
+        const favicon = document.createElement('img');
+        favicon.setAttribute('src', `https://www.google.com/s2/favicons?domain=${url}`);
+        favicon.setAttribute('alt', 'Favicon')
+
+        // create <a> Link
+        const link = document.createElement('a');
+        link.setAttribute('href', `${url}`);
+        link.setAttribute('target', '_blank');
+        link.textContent = name;
+
+        // Append all to <div> class="container" id="bookmarks-container">
+        // use .append() to append multiple items (vs 1 item with .appendChild())
+        // start at lowest child level element and roll up to parent element
+        linkInfo.append(favicon, link);
+        item.append(closeIcon, linkInfo);
+        bookmarksContainer.appendChild(item);
+    });
+};
+
 // Fetch bookmarks from local storage (if available)
 function fetchBookmarks() {
 
@@ -78,7 +122,8 @@ function fetchBookmarks() {
         localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
     };
 
-    console.log(JSON.stringify(bookmarks));
+    // console.log(JSON.stringify(bookmarks));
+    buildBookmarks();
 };
 
 
