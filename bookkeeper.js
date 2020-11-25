@@ -63,6 +63,10 @@ function validateForm(nameValue, urlValue) {
 
 // Build Bookmarks DOM
 function buildBookmarks() {
+
+    // Remove all bookmark elements
+    bookmarksContainer.textContent = '';
+
     // Build Items - 1 per bookmark
     bookmarks.forEach((bookmark) => {
         // destructure array
@@ -124,6 +128,23 @@ function fetchBookmarks() {
 
     // console.log(JSON.stringify(bookmarks));
     buildBookmarks();
+};
+
+// Delete Bookmark
+function deleteBookmark(url) {
+    // console.log('Delete url: ', url);
+
+    // iterate through bookmarks
+    bookmarks.forEach((bookmark, i) => {
+        if (bookmark.url === url) {
+            bookmarks.splice(i, 1);
+        };
+
+        // Update bookmarks array in localStorage
+        localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+        // repopulate DOM
+        fetchBookmarks();
+    });
 };
 
 
