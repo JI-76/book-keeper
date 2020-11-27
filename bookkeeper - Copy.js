@@ -11,9 +11,7 @@ const bookmarksContainer = document.getElementById('bookmarks-container');
 
 // global variable
 // Array of Objects to store Bookmarks
-//let bookmarks = [];
-// Refactor: Object to store Bookmarks
-let bookmarks = {};
+let bookmarks = [];
 
 // Show Modal; Focus on Input
 function showModal() {
@@ -70,13 +68,9 @@ function buildBookmarks() {
     bookmarksContainer.textContent = '';
 
     // Build Items - 1 per bookmark
-    //bookmarks.forEach((bookmark) => {
-    // Refactor: Use Object    
-    Object.keys(bookmarks).forEach((id) => {
+    bookmarks.forEach((bookmark) => {
         // destructure each array element
-        // const {name, url} = bookmark;
-        // Refactor: Use Object 
-        const {name, url} = bookmarks[id];
+        const {name, url} = bookmark;
         // console.log(name, url);
 
         // create <div> class="item"
@@ -88,9 +82,7 @@ function buildBookmarks() {
         const closeIcon = document.createElement('i');
         closeIcon.classList.add('far', 'fa-times-circle');
         closeIcon.setAttribute('title', 'Delete Bookmark');
-        // closeIcon.setAttribute('onclick', `deleteBookmark('${url}')`);
-        // Refactor: Use Object 
-        closeIcon.setAttribute('onclick', `deleteBookmark('${id}')`);
+        closeIcon.setAttribute('onclick', `deleteBookmark('${url}')`);
         
         // Favicon / Link Container
         // create <div> class="name"
@@ -124,18 +116,12 @@ function fetchBookmarks() {
         bookmarks = JSON.parse(localStorage.getItem('bookmarks'));
     } else {
         // Create bookmarks array in local storage with 1 item
-        // bookmarks = [
-        //     {
-        //       name: 'Jacinto Design',
-        //       url: 'http://jacinto.design',
-        //     },
-        //   ];
-        // Refactor: Use Object 
-        const id = `http://jacinto.design`
-        bookmarks[id] = {
+        bookmarks = [
+            {
                 name: 'Jacinto Design',
-                url: 'http://jacinto.design',
-            };
+                url: 'https://www.',
+            },
+        ];
 
         localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
     };
@@ -145,27 +131,22 @@ function fetchBookmarks() {
 };
 
 // Delete Bookmark
-// function deleteBookmark(url) {
-// Refactor: Use Object 
-function deleteBookmark(id) {
+function deleteBookmark(url) {
     // console.log('Delete url: ', url);
 
     // iterate through bookmarks
-    //bookmarks.forEach((bookmark, i) => {
-        // if (bookmark.url === url) {
-        //     bookmarks.splice(i, 1);
-        // };
-    // });
-    // Refactor: Use Object 
-    if (bookmarks[id]) {
-        delete bookmarks[id];
-    };
+    bookmarks.forEach((bookmark, i) => {
+        if (bookmark.url === url) {
+            bookmarks.splice(i, 1);
+        };
 
-    // Update bookmarks array in localStorage
-    localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
-    // repopulate DOM
-    fetchBookmarks();
+        // Update bookmarks array in localStorage
+        localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+        // repopulate DOM
+        fetchBookmarks();
+    });
 };
+
 
 // Handle Form data
 function storeBookmark(e) {
@@ -196,11 +177,7 @@ function storeBookmark(e) {
     };
 
     // pass Bookmark Object to Array of Objects
-    // bookmarks.push(bookmark);
-
-    // Refactor: Use Object 
-    bookmarks[urlValue] = bookmark;
-
+    bookmarks.push(bookmark);
     // console.log(JSON.stringify(bookmarks));
 
     // persist to local storage cache
